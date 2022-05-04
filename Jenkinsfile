@@ -1,16 +1,10 @@
- {
- node("maven-s") {
-stage('Source Checkout') {
-git url: "https://github.com/ashishjaat/deploy-rest-api-aws-ecs-terraform.git"
- script {
-def pom = readMavenPom file: 'pom.xml'
- def version = pom.version
- }
- }
- // Using Maven build the js file
- stage('Build') {
- echo "Building war file"
- sh "mvn clean package -DskipTests=true"
- }
-}
+pipeline {
+    agent { docker { image 'maven:3.8.4-openjdk-11-slim' } }
+    stages {
+        stage('build') {
+            steps {
+                sh 'mvn --version'
+            }
+        }
+    }
 }
